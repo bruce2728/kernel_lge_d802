@@ -101,6 +101,27 @@ static void __init msm8974_early_memory(void)
 	of_scan_flat_dt(dt_scan_for_memory_hole, msm8974_reserve_table);
 }
 
+#ifdef CONFIG_BRICKED_THERMAL
+static struct msm_thermal_data msm_thermal_pdata = {
+	.sensor_id = 0,
+	.poll_ms = 400,
+	.shutdown_temp = 83,
+
+	.allowed_max_high = 79,
+	.allowed_max_low = 74,
+	.allowed_max_freq = 300000,
+
+	.allowed_mid_high = 76,
+	.allowed_mid_low = 71,
+	.allowed_mid_freq = 960000,
+
+	.allowed_low_high = 74,
+	.allowed_low_low = 68,
+	.allowed_low_freq = 1728000,
+};
+#endif
+
+
 #ifdef CONFIG_LGE_LCD_TUNING
 static struct platform_device lcd_misc_device = {
 	.name = "lcd_misc_msm",
