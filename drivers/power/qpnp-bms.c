@@ -1492,7 +1492,7 @@ static int get_prop_bms_current_now(struct qpnp_bms_chip *chip)
 /* Returns coulomb counter in uAh */
 static int get_prop_bms_charge_counter(struct qpnp_bms_chip *chip)
 {
-	int64_t cc_raw;
+	int64_t cc_raw = 0;
 
 	mutex_lock(&chip->bms_output_lock);
 	lock_output_data(chip);
@@ -1506,7 +1506,7 @@ static int get_prop_bms_charge_counter(struct qpnp_bms_chip *chip)
 /* Returns shadow coulomb counter in uAh */
 static int get_prop_bms_charge_counter_shadow(struct qpnp_bms_chip *chip)
 {
-	int64_t cc_raw;
+	int64_t cc_raw = 0;
 
 	mutex_lock(&chip->bms_output_lock);
 	lock_output_data(chip);
@@ -2191,7 +2191,7 @@ out:
 
 static int clamp_soc_based_on_voltage(struct qpnp_bms_chip *chip, int soc)
 {
-	int rc, vbat_uv;
+	int rc, vbat_uv = 0;
 
 	rc = get_battery_voltage(chip, &vbat_uv);
 	if (rc < 0) {
@@ -2476,7 +2476,7 @@ done_calculating:
 static int calculate_soc_from_voltage(struct qpnp_bms_chip *chip)
 {
 	int voltage_range_uv, voltage_remaining_uv, voltage_based_soc;
-	int rc, vbat_uv;
+	int rc, vbat_uv = 0;
 
 	rc = get_battery_voltage(chip, &vbat_uv);
 	if (rc < 0) {
@@ -2722,7 +2722,7 @@ static void configure_vbat_monitor_high(struct qpnp_bms_chip *chip)
 static void btm_notify_vbat(enum qpnp_tm_state state, void *ctx)
 {
 	struct qpnp_bms_chip *chip = ctx;
-	int vbat_uv;
+	int vbat_uv = 0;
 	struct qpnp_vadc_result result;
 	int rc;
 
