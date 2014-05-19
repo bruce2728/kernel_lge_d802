@@ -813,7 +813,7 @@ static bool is_battery_present(struct qpnp_bms_chip *chip)
 static int get_battery_insertion_ocv_uv(struct qpnp_bms_chip *chip)
 {
 	union power_supply_propval ret = {0,};
-	int rc, vbat;
+	int rc, vbat = 0;
 
 	if (chip->batt_psy == NULL)
 		chip->batt_psy = power_supply_get_by_name("battery");
@@ -1479,7 +1479,7 @@ static int get_prop_bms_batt_resistance(struct qpnp_bms_chip *chip)
 /* Returns instantaneous current in uA */
 static int get_prop_bms_current_now(struct qpnp_bms_chip *chip)
 {
-	int rc, result_ua;
+	int rc, result_ua = 0;
 
 	rc = get_battery_current(chip, &result_ua);
 	if (rc) {
@@ -3150,7 +3150,7 @@ static void batfet_open_work(struct work_struct *work)
 {
 	int i;
 	int rc;
-	int result_ua;
+	int result_ua = 0;
 	u8 orig_delay, sample_delay;
 	struct qpnp_bms_chip *chip = container_of(work,
 				struct qpnp_bms_chip,
