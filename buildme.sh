@@ -25,6 +25,9 @@ mkdir "$KERNELDIR"/out/temp
 cp arch/arm/boot/zImage "$KERNELDIR"/out/temp/zImage
 
 # compress ramdisk
+for i in $(find "$KERNELDIR"/ramdisk/ -name .place_holder); do
+	rm -f "$i";
+done;
 scripts/mkbootfs "$KERNELDIR"/ramdisk | gzip > ramdisk.gz 2>/dev/null
 mv ramdisk.gz "$KERNELDIR"/out/temp/
 
