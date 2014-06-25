@@ -7,10 +7,6 @@ on post-fs
     chmod 0771 /persist-lg
 
 on post-fs-data
-    #CAPP_SECUREBOOT
-    exec /sbin/wallpaper -ap
-    wait /sbin/wallpaper
-
     #CAPP_FONTS
     mkdir /data/font 775 system system
     chmod 775 /data/font
