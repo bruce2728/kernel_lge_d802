@@ -166,26 +166,9 @@ extern int g_kcal_b;
 
 int kcal_set_values(int kcal_r, int kcal_g, int kcal_b)
 {
-#if defined(CONFIG_MACH_MSM8974_A1)
-		int is_update = 0;
-
-		int kcal_r_limit = 250;
-		int kcal_g_limit = 250;
-		int kcal_b_limit = 253;
-
-		g_kcal_r = kcal_r < kcal_r_limit ? kcal_r_limit : kcal_r;
-		g_kcal_g = kcal_g < kcal_g_limit ? kcal_g_limit : kcal_g;
-		g_kcal_b = kcal_b < kcal_b_limit ? kcal_b_limit : kcal_b;
-
-		if (kcal_r < kcal_r_limit || kcal_g < kcal_g_limit || kcal_b < kcal_b_limit)
-			is_update = 1;
-		if (is_update)
-			update_preset_lcdc_lut();
-#else
-		g_kcal_r = kcal_r;
-		g_kcal_g = kcal_g;
-		g_kcal_b = kcal_b;
-#endif
+	g_kcal_r = kcal_r;
+	g_kcal_g = kcal_g;
+	g_kcal_b = kcal_b;
 	return 0;
 }
 
