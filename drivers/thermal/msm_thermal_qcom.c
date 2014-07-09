@@ -915,7 +915,7 @@ static void __ref disable_msm_thermal(void)
 	for_each_possible_cpu(cpu) {
 		update_cpu_max_freq(cpu, MSM_CPUFREQ_NO_LIMIT);
 	}
-
+#ifdef CONFIG_BRICKED_THERMAL
 	pr_warn("msm_thermal: Warning! Thermal guard disabled!");
 }
 
@@ -927,6 +927,7 @@ static void enable_msm_thermal(void)
 			   msecs_to_jiffies(msm_thermal_info.poll_ms));
 
 	pr_info("msm_thermal: Thermal guard enabled.");
+#endif
 }
 
 static int __ref set_enabled(const char *val, const struct kernel_param *kp)
@@ -936,8 +937,10 @@ static int __ref set_enabled(const char *val, const struct kernel_param *kp)
 	ret = param_set_bool(val, kp);
 	if (!enabled)
 		disable_msm_thermal();
+#ifdef CONFIG_BRICKED_THERMAL
 	else if (enabled == 1)
 		enable_msm_thermal();
+#endif
 	else
 		pr_info("%s: no action for enabled = %d\n",
 				KBUILD_MODNAME, enabled);
