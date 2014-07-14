@@ -4228,15 +4228,15 @@ int taiko_write(struct snd_soc_codec *codec, unsigned int reg,
 #ifdef CONFIG_SOUND_CONTROL_HAX_3_GPL
 	if (!snd_hax_reg_access(reg)) {
 		if (!((val = snd_hax_cache_read(reg)) != -1)) {
-			val = wcd9xxx_reg_read_safe(codec->control_data, reg);
+			val = wcd9xxx_reg_read_safe(&wcd9xxx->core_res, reg);
 		}
 	} else {
 		snd_hax_cache_write(reg, value);
 		val = value;
 	}
-	return wcd9xxx_reg_write(codec->control_data, reg, val);
+	return wcd9xxx_reg_write(&wcd9xxx->core_res, reg, val);
 #else
-	return wcd9xxx_reg_write(codec->control_data, reg, value);
+	return wcd9xxx_reg_write(&wcd9xxx->core_res, reg, value);
 #endif
 }
 #ifdef CONFIG_SOUND_CONTROL_HAX_3_GPL
@@ -4246,13 +4246,8 @@ EXPORT_SYMBOL(taiko_write);
 static int taiko_startup(struct snd_pcm_substream *substream,
 		struct snd_soc_dai *dai)
 {
-	struct wcd9xxx *taiko_core = dev_get_drvdata(dai->codec->dev->parent);
 	pr_debug("%s(): substream = %s  stream = %d\n" , __func__,
 		 substream->name, substream->stream);
-	if ((taiko_core != NULL) &&
-	    (taiko_core->dev != NULL) &&
-	    (taiko_core->dev->parent != NULL))
-		pm_runtime_get_sync(taiko_core->dev->parent);
 
 	return 0;
 }
@@ -4260,15 +4255,8 @@ static int taiko_startup(struct snd_pcm_substream *substream,
 static void taiko_shutdown(struct snd_pcm_substream *substream,
 		struct snd_soc_dai *dai)
 {
-	struct wcd9xxx *taiko_core = dev_get_drvdata(dai->codec->dev->parent);
 	pr_debug("%s(): substream = %s  stream = %d\n" , __func__,
 		 substream->name, substream->stream);
-	if ((taiko_core != NULL) &&
-	    (taiko_core->dev != NULL) &&
-	    (taiko_core->dev->parent != NULL)) {
-		pm_runtime_mark_last_busy(taiko_core->dev->parent);
-		pm_runtime_put(taiko_core->dev->parent);
-	}
 }
 
 int taiko_mclk_enable(struct snd_soc_codec *codec, int mclk_enable, bool dapm)
